@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <title>Round carousel</title>
+    <style>
+        body{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            background-color: cadetblue;
+            max-width: 100%;
+            height: 100vh;
+        }
+        .carousel {
+            display: flex;
+            gap: 2.5%;
+            max-width: 100%;
+            overflow: hidden;
+            justify-content: center;
+            align-items: center;
+            background-color: brown;
+            position: relative;
+            left: 0;
+            width: max-content;
+            will-change: transform;
+        }
+        .carousel-item {
+            width: 18%;
+            /* gap: 2.5%; */
+            /* height: 400px; */
+            flex-shrink: 0;
+            /* margin-right: 20px;  */
+            will-change: transform; 
+        }
+        .carousel-item img {
+            width: 100%;
+            /* height: 100%; */
+            object-fit: cover;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="carousel">
+            <div class="carousel-item"><img src="./assets/img1.jpg" alt="img"></div>
+            <div class="carousel-item"><img src="./assets/img1.jpg" alt="img"></div>
+            <div class="carousel-item"><img src="./assets/img1.jpg" alt="img"></div>
+            <div class="carousel-item"><img src="./assets/img2.jpg" alt="img"></div>
+            <div class="carousel-item"><img src="./assets/img2.jpg" alt="img"></div>
+        </div>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>
