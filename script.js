@@ -1,15 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
     const carousel = document.querySelector('.carousel');
+    const container = document.querySelector('.container');
     let items = Array.from(document.querySelectorAll('.carousel-item'));
     const itemWidth = items[0].offsetWidth + 20;
     
+    // Color palette for background transitions
+    const colors = ['#8fbc8f', '#6495ed', '#ffa07a', '#9370db', '#5f9ea0'];
+    let colorIndex = 0;
+    
     // Initial reveal animation
     gsap.from(items, {
-        y: 100,
         opacity: 0,
-        duration: 0.8,
+        y: '100%',
+        opacity: 0,
+        duration: 1.5,
+        delay: 0.5,
         ease: "power3.out",
-        stagger: 0.15,
+        stagger: 0.3,
         onComplete: animateCarousel
     });
 
@@ -22,22 +29,61 @@ document.addEventListener('DOMContentLoaded', () => {
         // Set initial position offset to the right
         gsap.set(".carousel-item", { x: itemWidth/2 });
 
-        // Animate all items left by full item width
-        gsap.to(".carousel-item", {
-            x: `-=${itemWidth}`,
-            duration: 1,
-            ease: "power2.out",
+
+
+        // Create a timeline for synchronized animations
+        const tl = gsap.timeline({
             onComplete: () => {
                 // When animation completes:
-                // Remove the original item that exited left
                 firstItem.remove();
-                
-                // Reset positions to offset right for next animation
                 gsap.set(".carousel-item", { x: itemWidth/2 });
-                
-                // Start next animation
                 animateCarousel();
             }
         });
+
+        // Add both animations to the same timeline
+        tl.to(".carousel-item", {
+            x: `-=${itemWidth}`,
+            duration: 1,
+            ease: "power2.out"
+        })
+        .to(container, {
+            backgroundColor: colors[colorIndex],
+            duration: 1, // Match carousel duration
+            ease: "power2.out"
+        }, 0) // Start at same time as carousel animation
+        .to(".carousel-item:nth-child(1)", { 
+            scale: 0.85,
+            duration: 1,
+            ease: "power2.out"
+        }, 0)
+        .to(".carousel-item:nth-child(2)", { 
+            scale: 0.9,
+            duration: 1,
+            ease: "power2.out"
+        }, 0)
+        .to(".carousel-item:nth-child(3)", { 
+            scale: 0.95,
+            duration: 1,
+            ease: "power2.out"
+        }, 0)
+        .to(".carousel-item:nth-child(4)", { 
+            scale: 1.0,
+            duration: 1,
+            ease: "power2.out"
+        }, 0)
+        .to(".carousel-item:nth-child(5)", { 
+            scale: 0.95,
+            duration: 1,
+            ease: "power2.out"
+        }, 0)
+        .to(".carousel-item:nth-child(6)", { 
+            scale: 0.9,
+            duration: 1,
+            ease: "power2.out"
+        }, 0);
+
+        // Update color index for next cycle
+        colorIndex = (colorIndex + 1) % colors.length;
     }
 });
