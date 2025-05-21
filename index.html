@@ -77,7 +77,7 @@
          when leftmost item leaves the screen it becomes the 6th item,
          it goes to the right as a hidden item then enters the screen as rightmost item (5th) */
       .carousel-item:nth-child(6) {
-        transform: translateY(90px) rotate(7deg) scale(0.75); 
+        transform: translateY(90px) rotate(-7deg) scale(0.75); 
         /* rotation is positive value because the leftmost item has positive value */
       }
 
@@ -216,7 +216,7 @@
               ".carousel-item:nth-child(1)", // this is actually the 6th item
               {
                 scale: 0.75, // scale down
-                rotation: 7, // rotation to the left, to match with the leftmost item
+                rotation: -7, // rotation to the left, to match with the leftmost item
                 duration: 1, // duration of the animation in seconds
                 y: 70, // move down by 70px
                 ease: "power2.out", // easing function for smoothness
