@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- GSAP Core -->
+    <!-- import GSAP Core -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <title>Round carousel</title>
@@ -13,58 +13,78 @@
         margin: 0;
         padding: 0;
       }
+
+      /* container of the carousel */
       .container {
-        background-image: "linear-gradient(24deg, #E6CEAC 0%, #E6CEAC 50%, #D27D46 50%, #D27D46 100%)";
-        background-size: cover;
-        background-repeat: no-repeat;
+        background-image: "linear-gradient(24deg, #E6CEAC 0%, #E6CEAC 50%, #D27D46 50%, #D27D46 100%)"; /*starting gradient*/
+        background-size: cover; /*cover the entire container*/
+        background-repeat: no-repeat; /*no repeat*/
         background-position: center;
         max-width: 100%;
-        height: 100vh;
+        height: 100vh; /*container height*/
         display: flex;
         justify-content: center;
         overflow: hidden;
       }
+
+      /* the whole carousel */
       .carousel {
         display: flex;
-        gap: 1%;
+        /* 6 gaps(1*6%) + 5 items (5*18.8%) = 100%*/
+        gap: 1%; /*space between slide items, it must be caluclated*/
         max-width: 100%;
         height: 100%;
-        overflow: hidden;
+        overflow: hidden; /* 6th slide item will be hidden */
         justify-content: center;
         align-items: center;
         position: relative;
         left: 0;
-        width: max-content;
+        width: max-content; 
         will-change: transform;
+         /* to position the carousal at bottom of the container */
         transform: translateY(20%);
       }
 
+      /* style each slide items */
       .carousel-item {
+        /* 6 gaps(1*6%) + 5 items (5*18.8%) = 100%*/
         width: 18.8%;
         flex-shrink: 0;
         will-change: transform;
       }
+
+      /* 1st slide is the leftmost item, and it will move 70px down, rotate left with 5degree and scale 81% to it's original size  */
       .carousel-item:nth-child(1) {
         transform: translateY(70px) rotate(-5deg) scale(0.81);
       }
+      /* 2nd item has less rotation, scale and translation of Y position */
       .carousel-item:nth-child(2) {
         transform: translateY(40px) rotate(-3deg) scale(0.85);
       }
+      /* middle item will hav no change, but can be changed according to use if needed  */
       .carousel-item:nth-child(3) {
         transform: translateY(0px) rotate(0deg) scale(1);
       }
+      /* same as the 2nd leftmost item, but rotation to right */
       .carousel-item:nth-child(4) {
         transform: translateY(40px) rotate(3deg) scale(0.85);
       }
+      /* it is the rightmost item, same value as the leftmost item but rotation to right */
       .carousel-item:nth-child(5) {
         transform: translateY(70px) rotate(5deg) scale(0.81);
       }
+      /* it is the copied item not visible in screen,
+         when leftmost item leaves the screen it becomes the 6th item,
+         it goes to the right as a hidden item then enters the screen as rightmost item (5th) */
       .carousel-item:nth-child(6) {
-        transform: translateY(90px) rotate(7deg) scale(0.75);
+        transform: translateY(90px) rotate(7deg) scale(0.75); 
+        /* rotation is positive value because the leftmost item has positive value */
       }
 
+      /* style each slide images */
       .carousel-item img {
-        width: 100%;
+        /* change hight and width of the item images from here */
+        width: 100%; 
         /* height: 100%; */
         object-fit: cover;
         border-radius: 10px;
@@ -73,173 +93,190 @@
     </style>
   </head>
   <body>
-    <div class="container">
+    <!-- container of the carousel -->
+    <div class="container"> 
+      <!-- actual carousel -->
       <div class="carousel">
+        <!-- carousel slide item -->
         <div class="carousel-item">
+          <!-- image/content of the item -->
           <img src="./assets/img1.jpg" alt="img" />
         </div>
+        <!-- carousel slide item -->
         <div class="carousel-item">
+          <!-- image/content of the item -->
           <img src="./assets/img1.jpg" alt="img" />
         </div>
+        <!-- carousel slide item -->
         <div class="carousel-item">
+          <!-- image/content of the item -->
           <img src="./assets/img1.jpg" alt="img" />
         </div>
+        <!-- carousel slide item -->
         <div class="carousel-item">
+          <!-- image/content of the item -->
           <img src="./assets/img2.jpg" alt="img" />
         </div>
+        <!-- carousel slide item -->
         <div class="carousel-item">
+          <!-- image/content of the item -->
           <img src="./assets/img2.jpg" alt="img" />
         </div>
       </div>
     </div>
 
     <script>
+      // DOMContentLoaded is the event that is fired when all elements are loaded in the DOM
       document.addEventListener("DOMContentLoaded", () => {
-        const carousel = document.querySelector(".carousel");
-        const container = document.querySelector(".container");
-        let items = Array.from(document.querySelectorAll(".carousel-item"));
-        const itemWidth = items[0].offsetWidth + 20;
+        const carousel = document.querySelector(".carousel"); // the whole carousel
+        const container = document.querySelector(".container"); // the container of the carousel
+        let items = Array.from(document.querySelectorAll(".carousel-item")); // all items in the carousel in an array
+        const itemWidth = items[0].offsetWidth + 20; // width of each item + gap between items
 
         // Gradient color sets (50% hard stops)
         const gradients = [
           // 1. Warm sand to terracotta (softer transition)
           "linear-gradient(24deg, #E6CEAC 0%, #E6CEAC 50%, #D27D46 50%, #D27D46 100%)",
+                                        //starts at 0%, both 50% for hard stops, end at 100%
 
           // 2. Sage green to deeper sage
           "linear-gradient(24deg, #a7bb84 0%, #a7bb84 50%, #7A8B58 50%, #7A8B58 100%)",
+                                        //starts at 0%, both 50% for hard stops, end at 100%
 
           // 3. Soft lilac to lavender
           "linear-gradient(24deg, #D4C4E1 0%, #D4C4E1 50%, #A67BB5 50%, #A67BB5 100%)",
+                                        //starts at 0%, both 50% for hard stops, end at 100%
 
           // 4. Peach to coral
           "linear-gradient(24deg, #f6c49b 0%, #f6c49b 50%, #FF9E7D 50%, #FF9E7D 100%)",
+                                        //starts at 0%, both 50% for hard stops, end at 100%
 
           // 5. Pale teal to deeper teal
           "linear-gradient(24deg, #A7C7C9 0%, #A7C7C9 50%, #5F9EA0 50%, #5F9EA0 100%)",
+                                        //starts at 0%, both 50% for hard stops, end at 100%
         ];
 
-        let gradIndex = 0;
-
         // Set initial gradient
+        let gradIndex = 0;
         gsap.set(".container", {
           backgroundImage: gradients[0],
         });
 
         // Initial reveal animation
         gsap.from(items, {
-          opacity: 0,
-          y: "100%",
-          opacity: 0,
-          duration: 1.5,
-          delay: 0.5,
-          ease: "power3.out",
-          stagger: 0.3,
-          onComplete: animateCarousel,
+          opacity: 0, // start from 0 opacity
+          y: "100%", // enter the screen from bottom
+          duration: 1.5, // duration of the animation in seconds
+          delay: 0.5, // delay before the animation starts in seconds
+          ease: "power3.out", // easing function for smoothness
+          stagger: 0.3, // delay the animation between each item in seconds
+          onComplete: animateCarousel, // call the animateCarousel function after the animation
         });
 
+        // Function to animate the carousel
         function animateCarousel() {
-          const firstItem = items.shift();
-          const clone = firstItem.cloneNode(true);
-          carousel.appendChild(clone);
-          items.push(clone);
+          const firstItem = items.shift(); // remove the first item from the array (not the actual DOM)
+          const clone = firstItem.cloneNode(true); // clone the first item
+          carousel.appendChild(clone); // append the clone to the end of the carousel (6th item)
+          items.push(clone); // add the clone to the end of the items array, the item is already added in the DOM
 
           // Set initial position offset to the right
-          gsap.set(".carousel-item", { x: itemWidth / 2 });
+          gsap.set(".carousel-item", { x: itemWidth / 2 }); // gsap.set doesn't animate but instantly executes the command
 
           // Create a timeline for synchronized animations
           const tl = gsap.timeline({
             onComplete: () => {
               // When animation completes:
-              firstItem.remove();
+              firstItem.remove(); // remove the first item from the DOM
               gsap.set(".carousel-item", { x: itemWidth / 2 });
               animateCarousel();
             },
           });
 
-          gradIndex = (gradIndex + 1) % gradients.length;
+          gradIndex = (gradIndex + 1) % gradients.length; // prepare for the next gradient
           // gsap.
 
           // Add both animations to the same timeline
           tl.to(".carousel-item", {
-            x: `-=${itemWidth}`,
-            duration: 1,
-            ease: "power2.out",
+            x: `-=${itemWidth}`, // move all items to the left by itemWidth
+            duration: 1, // duration of the animation in seconds
+            ease: "power2.out", // easing function for smoothness
           })
             .to(
               ".container",
               {
-                backgroundImage: gradients[gradIndex],
-                duration: 1,
+                backgroundImage: gradients[gradIndex], // change the background gradient
+                duration: 1, // duration of the animation in seconds
                 ease: "none", // Instant switch between gradients
                 // immediateRender: false
               },
-              0
+              0 // start the gradient change at the same time as the item movement
             )
             .to(
-              ".carousel-item:nth-child(1)",
+              ".carousel-item:nth-child(1)", // this is actually the 6th item
               {
-                scale: 0.75,
-                rotation: 7,
-                duration: 1,
-                y: 70,
-                ease: "power2.out",
+                scale: 0.75, // scale down
+                rotation: 7, // rotation to the left, to match with the leftmost item
+                duration: 1, // duration of the animation in seconds
+                y: 70, // move down by 70px
+                ease: "power2.out", // easing function for smoothness
               },
-              0
+              0 // start the animation at the same time as the item movement
             )
             .to(
-              ".carousel-item:nth-child(2)",
+              ".carousel-item:nth-child(2)", // this is the leftmost item
               {
-                scale: 0.81,
-                rotation: -5,
-                duration: 1,
-                y: 70,
-                ease: "power2.out",
+                scale: 0.81, // scale down
+                rotation: -5, // rotation to the left
+                duration: 1, // duration of the animation in seconds
+                y: 70, // move down by 70px
+                ease: "power2.out", // easing function for smoothness
               },
-              0
+              0 // start the animation at the same time as the item movement
             )
             .to(
               ".carousel-item:nth-child(3)",
               {
-                scale: 0.85,
-                rotation: -3,
-                duration: 1,
-                y: 40,
-                ease: "power2.out",
+                scale: 0.85, // scale down
+                rotation: -3, // rotation to the left, but less than the leftmost item
+                duration: 1, // duration of the animation in seconds
+                y: 40, // move down by 40px, less than the leftmost item
+                ease: "power2.out", // easing function for smoothness
               },
-              0
+              0 // start the animation at the same time as the item movement
             )
             .to(
               ".carousel-item:nth-child(4)",
               {
-                scale: 1.0,
-                rotation: 0,
-                duration: 1,
-                y: 0,
-                ease: "power2.out",
+                scale: 1.0, // no scaling
+                rotation: 0, // no rotation
+                duration: 1, // duration of the animation in seconds
+                y: 0, // no transition to bottom or up
+                ease: "power2.out", // easing function for smoothness
               },
-              0
+              0 // start the animation at the same time as the item movement
             )
             .to(
               ".carousel-item:nth-child(5)",
               {
-                scale: 0.85,
-                rotation: 3,
-                duration: 1,
-                y: 40,
-                ease: "power2.out",
+                scale: 0.85, // scale down
+                rotation: 3, // rotation to the right, but less than the rightmost item
+                duration: 1, // duration of the animation in seconds
+                y: 40, // move down by 40px, less than the rightmost item
+                ease: "power2.out", // easing function for smoothness
               },
-              0
+              0 // start the animation at the same time as the item movement
             )
             .to(
               ".carousel-item:nth-child(6)",
               {
-                scale: 0.81,
-                rotation: 5,
-                duration: 1,
-                y: 70,
-                ease: "power2.out",
+                scale: 0.81, // scale down
+                rotation: 5, // rotation to the right
+                duration: 1, // duration of the animation in seconds
+                y: 70, // move down by 70px
+                ease: "power2.out", // easing function for smoothness
               },
-              0
+              0 // start the animation at the same time as the item movement
             );
         }
       });
